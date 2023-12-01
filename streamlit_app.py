@@ -27,9 +27,6 @@ st.set_page_config(
   page_icon='👌',
   initial_sidebar_state='expanded')
 
-# Session state
-if 'review_input' not in st.session_state:
-  st.session_state.review_input = ''
 
 # Utilities
 if os.path.isfile('molecule.smi'):
@@ -128,23 +125,21 @@ with tab1:
 
         
 with tab2:
-  if st.session_state.review_input == '':
     
-    with st.form('my_form'):
-      st.subheader('Traditional Sentiment Analysis')
+  with st.form('my_form'):
+    st.subheader('Traditional Sentiment Analysis')
 
-      review_txt = st.text_input('Enter your review here', st.session_state.review_input)
-      st.session_state.review_input = review_txt
+    review_txt = st.text_input('Enter your review here')
 
-      with st.expander('Example Review'):
-        st.write("The price of the product was way too high. Would not recommend this company.")
+    with st.expander('Example Review'):
+      st.write("The price of the product was way too high. Would not recommend this company.")
       
-      submit_button = st.form_submit_button('Submit')
+    submit_button = st.form_submit_button('Submit')
       
-      if submit_button:
-        st.subheader('Sentiment Analysis of the review')
-        result = classifier(review)
-        st.text(result)
+    if submit_button:
+      st.subheader('Sentiment Analysis of the review')
+      result = classifier(review_txt)
+      st.text(result)
 
 
 with tab3:
