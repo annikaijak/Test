@@ -1,11 +1,42 @@
-import streamlit as st
 import os
 import pickle
-import pandas as pd
 from PIL import Image
 from rdkit import Chem
 from rdkit.Chem import AllChem, Draw
 from padelpy import padeldescriptor
+
+# For building application
+import streamlit as st
+
+# Basic data manipulation:
+import numpy as np
+import pandas as pd
+
+# Visualisations:
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# NLP
+import spacy
+nlp = spacy.load('en_core_web_sm')
+
+# Resampling and splitting data into train and test set
+from imblearn.under_sampling import RandomUnderSampler
+from sklearn.model_selection import train_test_split
+
+# Loading ML libraries
+from sklearn.pipeline import make_pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn import svm
+from xgboost import XGBClassifier
+from sklearn.decomposition import TruncatedSVD
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import classification_report, confusion_matrix
+
 
 # Page configuration
 st.set_page_config(
