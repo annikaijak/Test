@@ -55,12 +55,17 @@ if os.path.isfile('molecule.smi'):
 
 # The App    
 st.title('TrustTracker 👌')
-st.markdown('Welcome to TrustTracker! With this page, you can easily check the quality, price, service and delivery of your favorite companies.')
+st.markdown('Welcome to TrustTracker! The application where you easily can check the quality, price, service and delivery of your favorite companies.')
 
 tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs(['About', 'Traditional Sentiment Analysis', 'Advanced Sentiment Analysis', 'Model performance', 'Dataset', 'Visualisations'])
 
 
 with tab1:
+  coverimage = Image.open('PARP1pred.jpg')
+  st.image(coverimage)
+
+        
+with tab2:
   if st.session_state.smiles_input == '':
     
     with st.form('my_form'):
@@ -141,11 +146,6 @@ with tab1:
           st.error('Inactive')
         if pred == 1:
           st.success('Active')
-
-        
-with tab2:
-  coverimage = Image.open('PARP1pred.jpg')
-  st.image(coverimage)
 with tab3:
   st.header('What is PARP1?')
   st.write('Poly (ADP-ribose) polymerase-1 (PARP-1) is an enzyme that catalyzes the ADP-ribosylation of a specific protein and plays a vital role in DNA repair. It has become an attractive target as inhibition of PARP-1 causes a toxic accumulation of DNA double strand breaks in cancer cells, particularly those with BRCA1/2 deficiency, which are found in breast, ovarian, prostate, and pancreatic cancers.')
