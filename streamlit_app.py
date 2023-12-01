@@ -40,8 +40,8 @@ from sklearn.metrics import classification_report, confusion_matrix
 
 # Page configuration
 st.set_page_config(
-  page_title='PARP1pred',
-  page_icon='💊',
+  page_title='TrustTracker',
+  page_icon='👌',
   initial_sidebar_state='expanded')
 
 # Session state
@@ -54,10 +54,10 @@ if os.path.isfile('molecule.smi'):
   
 
 # The App    
-st.title('💊 PARP1pred app')
-st.info('PARP1pred allow users to predict whether a query molecule is active/inactive towards the PARP1 target protein.')
+st.title('TrustTracker 👌')
+st.text('Welcome to TrustTracker! The page where you easily can see how good the quality, price, service and delivery is of your favorite companies.')
 
-tab1,tab2,tab3,tab4,tab5,tab6,tab7 = st.tabs(['Main', 'About', 'What is PARP1?', 'Dataset', 'Model performance', 'Python libraries', 'Citing us'])
+tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs(['About', 'Traditional Sentiment Analysis', 'Advanced Sentiment Analysis', 'Model performance', 'Dataset', 'Visualisations'])
 
 
 with tab1:
@@ -168,5 +168,3 @@ with tab6:
     - `rdkit`
     - `padelpy`
   ''')
-with tab7:
-  st.markdown('T. Lerksuthirat, S. Chitphuk, W. Stitchantrakul, D. Dejsuphong, A.A. Malik, C. Nantasenamat, PARP1PRED: A web server for screening the bioactivity of inhibitors against DNA repair enzyme PARP-1, ***EXCLI Journal*** (2023) DOI: https://doi.org/10.17179/excli2022-5602.')
