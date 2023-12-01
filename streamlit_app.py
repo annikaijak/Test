@@ -55,7 +55,7 @@ if os.path.isfile('molecule.smi'):
 
 # The App    
 st.title('TrustTracker 👌')
-st.text('Welcome to TrustTracker!' With this page, you can)
+st.text('Welcome to TrustTracker! With this page, you can')
 st.text('easily check the quality, price, service and delivery of your favorite companies.')
 
 tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs(['About', 'Traditional Sentiment Analysis', 'Advanced Sentiment Analysis', 'Model performance', 'Dataset', 'Visualisations'])
