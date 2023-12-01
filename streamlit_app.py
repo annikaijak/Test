@@ -1,9 +1,6 @@
 import os
 import pickle
 from PIL import Image
-from rdkit import Chem
-from rdkit.Chem import AllChem, Draw
-from padelpy import padeldescriptor
 
 # For building application
 import streamlit as st
@@ -20,20 +17,6 @@ import matplotlib.pyplot as plt
 import spacy
 nlp = spacy.load('en_core_web_sm')
 
-# Resampling and splitting data into train and test set
-from imblearn.under_sampling import RandomUnderSampler
-from sklearn.model_selection import train_test_split
-
-# Loading ML libraries
-from sklearn.pipeline import make_pipeline
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
-from sklearn import svm
-from xgboost import XGBClassifier
-from sklearn.decomposition import TruncatedSVD
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import classification_report, confusion_matrix
 
@@ -45,8 +28,8 @@ st.set_page_config(
   initial_sidebar_state='expanded')
 
 # Session state
-if 'smiles_input' not in st.session_state:
-  st.session_state.smiles_input = ''
+if 'review_input' not in st.session_state:
+  st.session_state.review_input = ''
 
 # Utilities
 if os.path.isfile('molecule.smi'):
@@ -67,6 +50,71 @@ def load_data():
 # Load the data using the defined function
 df = load_data()
 
+pipe_svm = pickle.load(open('model.pkl', 'rb'))
+
+# Defining functions
+def text_prepro(texts: pd.Series) -> list:
+  # Creating a container for the cleaned texts
+  clean_container = []
+  # Using spacy's nlp.pipe to preprocess the text
+  for doc in nlp.pipe(texts):
+    # Extracting lemmatized tokens that are not punctuations, stopwords or
+    # non-alphabetic characters
+    words = [words.lemma_.lower() for words in doc
+            if words.is_alpha and not words.is_stop and not words.is_punct]
+
+    # Adding the cleaned tokens to the container "clean_container"
+    clean_container.append(" ".join(words))
+
+  return clean_container
+
+# Defining the ML function
+def predict(placetext):
+  text_ready = []
+  text_ready = text_prepro(pd.Series(placetext))
+  result = pipe_svm.predict(text_ready)
+  if result == 0:
+    return "Negative sentiment"
+  if result == 1:
+    return "Positive sentiment"
+
+categories = {
+    "Price": [
+        "price", "cost", "expensive", "cheap", "value", "pay", "affordable",
+        "pricey", "budget", "charge", "fee", "pricing", "rate", "worth", "economical"
+    ],
+    "Delivery": [
+        "deliver", "delivery", "shipping", "dispatch", "courier", "ship", "transit",
+        "postage", "mail", "shipment", "logistics", "transport", "send", "carrier", "parcel"
+    ],
+    "Quality": [
+        "quality", "material", "build", "standard", "durability", "craftsmanship",
+        "workmanship", "texture", "construction", "condition", "grade", "caliber",
+        "integrity", "excellence", "reliability", "sturdiness", "performance"
+    ]
+}
+
+def lemmatize_keywords(categories):
+    lemmatized_categories = {}
+    for category, keywords in categories.items():
+        lemmatized_keywords = [nlp(keyword)[0].lemma_ for keyword in keywords]
+        lemmatized_categories[category] = lemmatized_keywords
+    return lemmatized_categories
+    
+list_lab = []
+def categorize_review(text_review):
+    lemmatized_review = " ".join([token.lemma_ for token in nlp(text_review.lower())])
+    for category, keywords in lemmatize_keywords(categories).items():
+        if any(keyword in lemmatized_review for keyword in keywords):
+          list_lab.append(category)
+    return list_lab
+    if len(list_lab) == 0:
+      return "Other"
+
+def classifier(text):
+  category = categorize_review(text)
+  sentiment = predict(text)
+  return category, sentiment
 
 # The App    
 st.title('TrustTracker 👌')
@@ -76,91 +124,29 @@ tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs(['About', 'Traditional Sentiment Analysi
 
 
 with tab1:
-  coverimage = Image.open('PARP1pred.jpg')
-  st.image(coverimage)
+  st.header("About the application")
 
         
 with tab2:
-  if st.session_state.smiles_input == '':
+  if st.session_state.review_input == '':
     
     with st.form('my_form'):
-      st.subheader('Predict PARP1 inhibitory activity')
+      st.subheader('Traditional Sentiment Analysis')
 
-      smiles_txt = st.text_input('Enter SMILES notation', st.session_state.smiles_input)
-      st.session_state.smiles_input = smiles_txt
+      review_txt = st.text_input('Enter your review here', st.session_state.review_input)
+      st.session_state.review_input = review_txt
 
-      with st.expander('Example SMILES'):
-        st.code('O=C(c1cc(Cc2n[nH]c(=O)c3ccccc23)ccc1F)N1CCN(C(=O)C2CC2)CC1')
+      with st.expander('Example Review'):
+        st.write("The price of the product was way too high. Would not recommend this company.")
       
       submit_button = st.form_submit_button('Submit')
-
-      
       
       if submit_button:
-        st.subheader('⚛️ Input molecule:')
-        with st.expander('Show SMILES', expanded=True):
-          #st.write('**SMILES**')
-          st.text(st.session_state.smiles_input)
-
-        with st.expander('Show chemical structures', expanded=True):
-          #st.write('**Chemical structure**')
-          smi = Chem.MolFromSmiles(st.session_state.smiles_input)
-          Chem.Draw.MolToFile(smi, 'molecule.png', width=900)
-          mol_image = Image.open('molecule.png')
-          st.image(mol_image)
-
-      # Input SMILES saved to file
-      f = open('molecule.smi', 'w')
-      f.write(f'{st.session_state.smiles_input}\tmol_001')
-      f.close()
+        st.subheader('Sentiment Analysis of the review')
+        result = classifier(review)
+        st.text(result)
 
 
-      # Compute PADEL descriptors
-      if st.session_state.smiles_input != '':
-        st.subheader('🔢 Descriptors')
-        if os.path.isfile('molecule.smi'):
-          padeldescriptor(mol_dir='molecule.smi', 
-                            d_file='descriptors.csv',
-                            descriptortypes='data/PubchemFingerprinter.xml', 
-                            detectaromaticity=True,
-                            standardizenitro=True,
-                            standardizetautomers=True,
-                            threads=2,
-                            removesalt=True,
-                            log=True,
-                            fingerprints=True)
-
-        descriptors = pd.read_csv('descriptors.csv')
-        descriptors.drop('Name', axis=1, inplace=True)
-
-        with st.expander('Show full set of descriptors as calculated for query molecule'):
-          #st.write('**Full set of descriptors (calculated for query molecule)**')
-          st.write(descriptors)
-          st.write(descriptors.shape)
-
-
-      # Load descriptor subset used in trained model
-      if st.session_state.smiles_input != '':
-        model = pickle.load(open('data/oversampling_PubChem_RandomForestClassifier.pkl', 'rb'))
-        pubchem_subset = model.feature_names_in_
-
-        query_desc_1 = descriptors.columns.difference(pubchem_subset)
-        query_desc_2 = descriptors.drop(query_desc_1, axis=1)
-
-        with st.expander('Show subset of descriptors as used in trained model'):
-          #st.write('**Subset of descriptors (used in trained model)**')
-          st.write(query_desc_2)
-          st.write(query_desc_2.shape)
-
-
-      # Read in saved classification model
-      if st.session_state.smiles_input != '':
-        st.subheader('🤖 Predictions')
-        pred = int(model.predict(query_desc_2))
-        if pred == 0:
-          st.error('Inactive')
-        if pred == 1:
-          st.success('Active')
 with tab3:
   st.header('What is PARP1?')
   st.write('Poly (ADP-ribose) polymerase-1 (PARP-1) is an enzyme that catalyzes the ADP-ribosylation of a specific protein and plays a vital role in DNA repair. It has become an attractive target as inhibition of PARP-1 causes a toxic accumulation of DNA double strand breaks in cancer cells, particularly those with BRCA1/2 deficiency, which are found in breast, ovarian, prostate, and pancreatic cancers.')
