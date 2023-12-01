@@ -52,6 +52,21 @@ if 'smiles_input' not in st.session_state:
 if os.path.isfile('molecule.smi'):
   os.remove('molecule.smi') 
   
+# Function to load the dataset
+@st.experimental_memo
+def load_data():
+    # Define the file path
+    file_path = 'https://raw.githubusercontent.com/MikkelONielsen/TrustTracker/main/trust_pilot_reviews_data_2022_06.csv'
+    
+    # Load the CSV file into a pandas dataframe
+    df = pd.read_csv(file_path)
+    
+    return df
+
+
+# Load the data using the defined function
+df = load_data()
+
 
 # The App    
 st.title('TrustTracker 👌')
