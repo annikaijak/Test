@@ -50,7 +50,7 @@ def load_data():
 # Load the data using the defined function
 df = load_data()
 
-pipe_svm = pickle.load(open('model.pkl', 'rb'))
+pipe_svm = pickle.load(open('data/model.pkl', 'rb'))
 
 # Defining functions
 def text_prepro(texts: pd.Series) -> list:
