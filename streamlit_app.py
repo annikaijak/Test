@@ -195,7 +195,7 @@ with tab6:
   st.pyplot(plt)  
 
   # Reviews by rating
-  st.header("Reviews by Rating")
+  st.subheader("Reviews by Rating")
     
   plt.figure(figsize=(10, 6))
   ax = df['rating'].value_counts().sort_index() \
