@@ -150,21 +150,76 @@ with tab3:
   st.header('What is PARP1?')
   st.write('Poly (ADP-ribose) polymerase-1 (PARP-1) is an enzyme that catalyzes the ADP-ribosylation of a specific protein and plays a vital role in DNA repair. It has become an attractive target as inhibition of PARP-1 causes a toxic accumulation of DNA double strand breaks in cancer cells, particularly those with BRCA1/2 deficiency, which are found in breast, ovarian, prostate, and pancreatic cancers.')
 with tab4:
-  st.header('Dataset')
+  st.header('Model performance')
   st.write('''
     In our work, we retrieved a human PARP-1 biological dataset from the ChEMBL database. The data was curated and resulted in a non-redundant set of 2,018 PARP-1 inhibitors, which can be divided into:
     - 1,720 active compounds
     - 298 inactive compounds
     ''')
 with tab5:
-  st.header('Model performance')
-  st.write('We selected PubChem as a molecular fingerprint and used a random forest with an oversampling approach to construct the best model. The Matthews correlation coefficients for training, cross-validation, and test sets were 1.00, 0.96, and 0.74, respectively.')
+  st.header('Dataset')
+  # Display dataset overview
+  st.subheader("Dataset Overview")
+  st.dataframe(df.head())
 with tab6:
-  st.header('Python libraries')
-  st.markdown('''
-    This app is based on the following Python libraries:
-    - `streamlit`
-    - `pandas`
-    - `rdkit`
-    - `padelpy`
-  ''')
+  st.header('Visualisations')
+
+  # Reviews by number of companies
+  st.subheader("Reviews by Number of Companies")
+  # Counting how many reviews each company has
+  reviews_count = df['name'].value_counts()
+
+  # Setting up the plot
+  plt.figure(figsize=(10, 6))
+  ax = reviews_count.value_counts().sort_index() \
+  .plot(kind='bar',
+        title='Count of Reviews by Number of Companies ',
+        figsize=(10, 5))
+  ax.set_xlabel('Number of Reviews')
+  ax.set_ylabel('Number of Companies')
+  st.pyplot(plt)  
+
+  # Reviews by rating
+  st.header("Reviews by Rating")
+    
+  plt.figure(figsize=(10, 6))
+  ax = df['rating'].value_counts().sort_index() \
+  .plot(kind='bar',
+        title='Count of Reviews by Stars',
+        figsize=(10, 5))
+  ax.set_xlabel('Review Stars')
+  st.pyplot(plt)
+
+  # Reviews by year
+  st.subheader("Reviews by Year")
+    
+  # Converting the reviewed_at column to datetime
+  df['reviewed_at'] = pd.to_datetime(df['reviewed_at'])
+    
+  # We convert the reviewed_at column to a string format with only the year
+  # count how many reviews were made each year, sort the index and reset the index
+  reviews_per_day = df['reviewed_at'].dt.strftime('%Y').value_counts().sort_index().reset_index(name='counts')
+    
+  # Then we plot the figure
+  plt.figure(figsize=(20,5))
+  plt.bar(reviews_per_day['reviewed_at'], reviews_per_day['counts'])
+  plt.title('Review count by year')
+  plt.ylabel('Number of reviews')
+  plt.xlabel('Year')
+  st.pyplot(plt)
+
+  # Reviews by user
+  st.subheader("Reviews by User")
+    
+  # Counting how many reviews the authors have made, but only for the authers that
+  # have made more than 3 reviews.
+  reviews_per_author = df['author_name'].value_counts().loc[lambda x : x > 3].reset_index(name='counts')
+    
+  plt.figure(figsize=(15,6))
+  plt.bar(reviews_per_author['author_name'], reviews_per_author['counts'])
+  plt.title('Review count by author')
+  plt.xticks(rotation=70)
+  plt.yticks([])
+  plt.ylabel('Number of Reviews')
+  plt.xlabel('Review Author')
+  st.pyplot(plt)
