@@ -21,6 +21,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 
 from transformers import AutoTokenizer
 from transformers import AutoModelForSequenceClassification
+from scipy.special import softmax
 
 # Page configuration
 st.set_page_config(
