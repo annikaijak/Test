@@ -106,10 +106,9 @@ def categorize_review(text_review):
     if len(list_lab) == 0:
       return "Other"
 
-def classifier(text):
-  category = categorize_review(text)
-  sentiment = predict(text)
-  return category, sentiment
+MODEL = f"cardiffnlp/twitter-roberta-base-sentiment"
+tokenizer = AutoTokenizer.from_pretrained(MODEL)
+model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
 # The App    
 st.title('TrustTracker 👌')
