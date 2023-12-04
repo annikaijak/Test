@@ -151,6 +151,25 @@ with tab3:
   st.header('Transformer Approach')
   st.write('This tab includes Transformer-Based Sentiment Analysis using RoBERTa and SoftMax.')
 
+  with st.form('my_form3'):
+    st.subheader('Sentiment Analysis for Individual Reviews')
+
+    review_txt3 = st.text_input('Enter your review here')
+      
+    submit_button3 = st.form_submit_button('Submit')
+      
+    if submit_button:
+      category = categorize_review(review_txt)
+      sentiment = predict(review_txt)
+      st.write(f'This review regards: {", ".join(category)}')
+      st.write(f'It has: {sentiment}')
+
+  with st.form('another_form'):
+    st.subheader('Sentiment Analysis for Companies')
+    st.selectbox('Select company:', df['name'].unique())
+    
+    submit_button2 = st.form_submit_button('Submit')    
+
 with tab4:
   st.header('Model performance')
   st.write('''
