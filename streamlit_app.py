@@ -112,7 +112,7 @@ def classifier(text):
 st.title('TrustTracker 👌')
 st.markdown('Welcome to TrustTracker! The application where you easily can check the quality, price, service and delivery of your favorite companies.')
 
-tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs(['About', 'Traditional Sentiment Analysis', 'Advanced Sentiment Analysis', 'Model performance', 'Dataset', 'Visualisations'])
+tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs(['About', 'Traditional Sentiment Analysis', 'Transformer-Based Sentiment Analysis', 'Model performance', 'Dataset', 'Visualisations'])
 
 
 with tab1:
@@ -138,8 +138,9 @@ with tab2:
 
 
 with tab3:
-  st.header('What is PARP1?')
-  st.write('Poly (ADP-ribose) polymerase-1 (PARP-1) is an enzyme that catalyzes the ADP-ribosylation of a specific protein and plays a vital role in DNA repair. It has become an attractive target as inhibition of PARP-1 causes a toxic accumulation of DNA double strand breaks in cancer cells, particularly those with BRCA1/2 deficiency, which are found in breast, ovarian, prostate, and pancreatic cancers.')
+  st.header('Transformer-Based Sentiment Analysis')
+  st.write('This tab includes a Transformer-Based Sentiment Analysis using RoBERTa.')
+
 with tab4:
   st.header('Model performance')
   st.write('''
@@ -147,11 +148,13 @@ with tab4:
     - 1,720 active compounds
     - 298 inactive compounds
     ''')
+
 with tab5:
   st.header('Dataset')
   # Display dataset overview
   st.subheader("Dataset Overview")
   st.dataframe(df.head())
+
 with tab6:
   st.header('Visualisations')
 
