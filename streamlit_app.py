@@ -106,7 +106,7 @@ def categorize_review(text_review):
     if len(list_lab) == 0:
       return "Other"
 
-MODEL = f"cardiffnlp/twitter-roberta-base-sentiment"
+MODEL = "cardiffnlp/twitter-roberta-base-sentiment"
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
