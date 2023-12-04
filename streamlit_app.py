@@ -19,6 +19,9 @@ nlp = spacy.load('en_core_web_sm')
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import classification_report, confusion_matrix
 
+from transformers import AutoTokenizer
+from transformers import AutoModelForSequenceClassification
+
 # Page configuration
 st.set_page_config(
   page_title='TrustTracker',
