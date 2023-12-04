@@ -26,11 +26,6 @@ st.set_page_config(
   page_title='TrustTracker',
   page_icon='👌',
   initial_sidebar_state='expanded')
-
-
-# Utilities
-if os.path.isfile('molecule.smi'):
-  os.remove('molecule.smi') 
   
 # Function to load the dataset
 @st.experimental_memo
