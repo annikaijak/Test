@@ -134,7 +134,7 @@ with tab2:
     if submit_button:
       st.write('Sentiment Analysis of the review')
       result = classifier(review_txt)
-      st.write('This Review regards: ' + result[0] + ' and has a ' + result[1])
+      st.text('This Review regards: ' + result + ' and has a ' + result)
 
   with st.form('another_form'):
     st.subheader('Sentiment Analysis for Companies')
