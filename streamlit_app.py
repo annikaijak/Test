@@ -132,7 +132,6 @@ with tab2:
     submit_button = st.form_submit_button('Submit')
       
     if submit_button:
-      st.write('Sentiment Analysis of the review')
       category = categorize_review(review_txt)
       sentiment = predict(review_txt)
       st.write(f'This review regards: {", ".join(category)}')
