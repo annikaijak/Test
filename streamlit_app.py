@@ -135,7 +135,8 @@ with tab2:
       st.write('Sentiment Analysis of the review')
       category = categorize_review(review_txt)
       sentiment = predict(review_txt)
-      st.write(f'This review regards {", ".join(category)} and has a {sentiment}.')
+      st.write(f'This review regards: {", ".join(category)}')
+      st.write(f'It has a: {sentiment}.)
 
   with st.form('another_form'):
     st.subheader('Sentiment Analysis for Companies')
