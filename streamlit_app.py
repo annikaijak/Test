@@ -133,8 +133,9 @@ with tab2:
       
     if submit_button:
       st.write('Sentiment Analysis of the review')
-      result = classifier(review_txt)
-      st.write(f'This review regards {", ".join(category)} and has a {sentiment} sentiment.')
+      category = categorize_review(review_txt)
+      sentiment = predict(review_txt)
+      st.write(f'This review regards {", ".join(category)} and has a {sentiment}.')
 
   with st.form('another_form'):
     st.subheader('Sentiment Analysis for Companies')
