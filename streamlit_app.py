@@ -163,11 +163,11 @@ with tab3:
       st.write(f'This review regards: {", ".join(category)}')
       st.write(f'It has: {sentiment}')
 
-  with st.form('another_form'):
+  with st.form('another_form2'):
     st.subheader('Sentiment Analysis for Companies')
     st.selectbox('Select company:', df['name'].unique())
     
-    submit_button2 = st.form_submit_button('Submit')    
+    submit_button4 = st.form_submit_button('Submit')    
 
 with tab4:
   st.header('Model performance')
