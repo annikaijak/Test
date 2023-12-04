@@ -153,9 +153,6 @@ with tab2:
     st.subheader('Sentiment Analysis for Individual Reviews')
 
     review_txt = st.text_input('Enter your review here')
-
-    with st.expander('Example Review'):
-      st.write("The price of the product was way too high. Would not recommend this company.")
       
     submit_button = st.form_submit_button('Submit')
       
