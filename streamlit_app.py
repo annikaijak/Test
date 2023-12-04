@@ -120,7 +120,10 @@ with tab1:
 
         
 with tab2:
-    
+
+  st.header('Traditional Approach')
+  st.write('This tab includes Traditional Sentiment Analysis using TF-IDF and SVM.')
+  
   with st.form('my_form'):
     st.subheader('Sentiment Analysis for Individual Reviews')
 
@@ -146,7 +149,7 @@ with tab2:
 
 with tab3:
   st.header('Transformer Approach')
-  st.write('This tab includes a Transformer-Based Sentiment Analysis using RoBERTa.')
+  st.write('This tab includes Transformer-Based Sentiment Analysis using RoBERTa and SoftMax.')
 
 with tab4:
   st.header('Model performance')
