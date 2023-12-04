@@ -112,7 +112,7 @@ def classifier(text):
 st.title('TrustTracker 👌')
 st.markdown('Welcome to TrustTracker! The application where you easily can check the quality, price, service and delivery of your favorite companies.')
 
-tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs(['About', 'Traditional Sentiment Analysis', 'Transformer-Based Sentiment Analysis', 'Model performance', 'Dataset', 'Visualisations'])
+tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs(['About', 'Traditional Approach', 'Transformer Approach', 'Model performance', 'Dataset', 'Visualisations'])
 
 
 with tab1:
