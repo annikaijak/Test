@@ -164,7 +164,7 @@ with tab2:
 
   with st.form('another_form'):
     st.subheader('Sentiment Analysis for Companies')
-    st.selectbox('Select company:', df['name'].unique())
+    company = st.selectbox('Select company:', df['name'].unique())
     
     submit_button2 = st.form_submit_button('Submit')    
 
