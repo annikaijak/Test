@@ -1,4 +1,3 @@
-import os
 import pickle
 from PIL import Image
 
