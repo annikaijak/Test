@@ -183,15 +183,10 @@ with tab3:
       
     submit_button3 = st.form_submit_button('Submit')
       
-    if submit_button:
-      result = predict_sentiment(review_txt3)
-      st.write(result)
+    if submit_button3:
+      result2 = predict_sentiment(review_txt3)
+      st.write(result2)
 
-  with st.form('another_form2'):
-    st.subheader('Sentiment Analysis for Companies')
-    st.selectbox('Select company:', df['name'].unique())
-    
-    submit_button4 = st.form_submit_button('Submit')    
 
 with tab4:
   st.header('Model performance')
