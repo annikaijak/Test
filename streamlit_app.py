@@ -20,11 +20,6 @@ nlp = spacy.load('en_core_web_sm')
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import classification_report, confusion_matrix
 
-from transformers import pipeline
-from transformers import AutoTokenizer
-from transformers import AutoModelForSequenceClassification
-from scipy.special import softmax
-
 # Page configuration
 st.set_page_config(
   page_title='TrustTracker',
@@ -47,7 +42,6 @@ def load_data():
 df = load_data()
 
 pipe_svm = pickle.load(open('data/model.pkl', 'rb'))
-result_roberta = pickle.load(open('data/RoBERTa_result.pkl', 'rb'))
 
 # Defining functions
 def text_prepro(texts: pd.Series) -> list:
