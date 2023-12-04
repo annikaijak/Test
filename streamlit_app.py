@@ -122,7 +122,7 @@ with tab1:
 with tab2:
     
   with st.form('my_form'):
-    st.subheader('Traditional Approach')
+    st.subheader('Simple Sentiment Analysis with Traditional Approach')
 
     review_txt = st.text_input('Enter your review here')
 
@@ -137,7 +137,7 @@ with tab2:
       st.text(result)
 
   with st.form('another_form'):
-    st.subheader('Aspected-Based Sentiment Analysis')
+    st.subheader('Aspected-Based Sentiment Analysis with Traditional Approach')
     st.selectbox('Select company:', df['name'].unique())
     
     submit_button2 = st.form_submit_button('Submit')    
