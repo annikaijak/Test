@@ -122,7 +122,7 @@ with tab1:
 with tab2:
     
   with st.form('my_form'):
-    st.subheader('Traditional Sentiment Analysis')
+    st.subheader('Traditional Approach')
 
     review_txt = st.text_input('Enter your review here')
 
@@ -138,7 +138,7 @@ with tab2:
 
 
 with tab3:
-  st.header('Transformer-Based Sentiment Analysis')
+  st.header('Transformer Approach')
   st.write('This tab includes a Transformer-Based Sentiment Analysis using RoBERTa.')
 
 with tab4:
