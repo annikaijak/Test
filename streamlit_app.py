@@ -138,7 +138,9 @@ with tab2:
 
   with st.form('another_form'):
     st.subheader('Aspected-Based Sentiment Analysis')
-    st.selectbox('Select company:', df['name'])
+    st.selectbox('Select company:', df['name'].unique())
+    
+    submit_button2 = st.form_submit_button('Submit')    
 
 
 with tab3:
