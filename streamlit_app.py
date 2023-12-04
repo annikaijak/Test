@@ -136,6 +136,10 @@ with tab2:
       result = classifier(review_txt)
       st.text(result)
 
+  with st.form('another_form'):
+    st.subheader('Aspected-Based Sentiment Analysis')
+    st.selectbox('Select company:', df['name'])
+
 
 with tab3:
   st.header('Transformer Approach')
