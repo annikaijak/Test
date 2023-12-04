@@ -20,6 +20,10 @@ nlp = spacy.load('en_core_web_sm')
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import classification_report, confusion_matrix
 
+from transformers import pipeline
+from transformers import AutoTokenizer
+from transformers import AutoModelForSequenceClassification
+from scipy.special import softmax
 
 # Page configuration
 st.set_page_config(
@@ -43,6 +47,7 @@ def load_data():
 df = load_data()
 
 pipe_svm = pickle.load(open('data/model.pkl', 'rb'))
+result_roberta = pickle.load(open('data/RoBERTa_result.pkl', 'rb'))
 
 # Defining functions
 def text_prepro(texts: pd.Series) -> list:
@@ -107,6 +112,33 @@ def classifier(text):
   category = categorize_review(text)
   sentiment = predict(text)
   return category, sentiment
+
+MODEL = f"cardiffnlp/twitter-roberta-base-sentiment"
+tokenizer = AutoTokenizer.from_pretrained(MODEL)
+model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+
+# Function for Roberta Model Polarity Score
+def polarity_scores(text):
+    encoded_text = tokenizer(text, return_tensors='pt')
+    result = model(**encoded_text)
+    scores = result[0][0].detach().numpy()
+    scores = softmax(scores)
+    scores_dict = {
+        'negative' : scores[0],
+        'neutral' : scores[1],
+        'positive' : scores[2]
+    }
+    return scores_dict
+
+def predict_sentiment(text):
+
+    # Get polarity scores
+    scores = polarity_scores(text)
+
+    # Determine the sentiment with the highest score
+    sentiment = max(scores, key=scores.get)
+
+    return f"This review has {sentiment} sentiment with a score of {scores[sentiment]*100:.2f}%"
 
 # The App    
 st.title('TrustTracker 👌')
