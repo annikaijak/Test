@@ -4,7 +4,7 @@ pandas
 numpy
 matplotlib
 seaborn
-spacy==3.7.1
+spacy>=3.7.2<=3.8.0
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz
 transformers
 scipy
