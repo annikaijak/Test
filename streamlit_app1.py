@@ -46,31 +46,6 @@ df = load_data()
 
 pipe_svm = pickle.load(open('data/model.pkl', 'rb'))
 
-# Defining functions
-def text_prepro(texts: pd.Series) -> list:
-  # Creating a container for the cleaned texts
-  clean_container = []
-  # Using spacy's nlp.pipe to preprocess the text
-  for doc in nlp.pipe(texts):
-    # Extracting lemmatized tokens that are not punctuations, stopwords or
-    # non-alphabetic characters
-    words = [words.lemma_.lower() for words in doc
-            if words.is_alpha and not words.is_stop and not words.is_punct]
-
-    # Adding the cleaned tokens to the container "clean_container"
-    clean_container.append(" ".join(words))
-
-  return clean_container
-
-# Defining the ML function
-def predict(placetext):
-  text_ready = []
-  text_ready = text_prepro(pd.Series(placetext))
-  result = pipe_svm.predict(text_ready)
-  if result == 0:
-    return "Negative sentiment"
-  if result == 1:
-    return "Positive sentiment"
 
 categories = {
     "Price": [
@@ -88,23 +63,6 @@ categories = {
     ]
 }
 
-def lemmatize_keywords(categories):
-    lemmatized_categories = {}
-    for category, keywords in categories.items():
-        lemmatized_keywords = [nlp(keyword)[0].lemma_ for keyword in keywords]
-        lemmatized_categories[category] = lemmatized_keywords
-    return lemmatized_categories
-    
-list_lab = []
-def categorize_review(text_review):
-    lemmatized_review = " ".join([token.lemma_ for token in nlp(text_review.lower())])
-    for category, keywords in lemmatize_keywords(categories).items():
-        if any(keyword in lemmatized_review for keyword in keywords):
-          list_lab.append(category)
-    return list_lab
-    if len(list_lab) == 0:
-      return "Other"
-
 # The App    
 st.title('TrustTracker 👌')
 st.markdown('Welcome to TrustTracker! The application where you easily can check the quality, price, service and delivery of your favorite companies.')
@@ -120,6 +78,49 @@ with tab2:
 
   st.header('Traditional Approach')
   st.write('This tab includes Traditional Sentiment Analysis using TF-IDF and SVM.')
+
+    # Defining functions
+  def text_prepro(texts: pd.Series) -> list:
+    # Creating a container for the cleaned texts
+    clean_container = []
+    # Using spacy's nlp.pipe to preprocess the text
+    for doc in nlp.pipe(texts):
+      # Extracting lemmatized tokens that are not punctuations, stopwords or
+      # non-alphabetic characters
+      words = [words.lemma_.lower() for words in doc
+              if words.is_alpha and not words.is_stop and not words.is_punct]
+  
+      # Adding the cleaned tokens to the container "clean_container"
+      clean_container.append(" ".join(words))
+  
+    return clean_container
+  
+  # Defining the ML function
+  def predict(placetext):
+    text_ready = []
+    text_ready = text_prepro(pd.Series(placetext))
+    result = pipe_svm.predict(text_ready)
+    if result == 0:
+      return "Negative sentiment"
+    if result == 1:
+      return "Positive sentiment"
+
+  def lemmatize_keywords(categories):
+      lemmatized_categories = {}
+      for category, keywords in categories.items():
+          lemmatized_keywords = [nlp(keyword)[0].lemma_ for keyword in keywords]
+          lemmatized_categories[category] = lemmatized_keywords
+      return lemmatized_categories
+      
+  list_lab = []
+  def categorize_review(text_review):
+      lemmatized_review = " ".join([token.lemma_ for token in nlp(text_review.lower())])
+      for category, keywords in lemmatize_keywords(categories).items():
+          if any(keyword in lemmatized_review for keyword in keywords):
+            list_lab.append(category)
+      return list_lab
+      if len(list_lab) == 0:
+        return "Other"
   
   with st.form('my_form'):
     st.subheader('Sentiment Analysis for Individual Reviews')
