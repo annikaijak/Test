@@ -121,7 +121,7 @@ with tab2:
             list_lab.append(category)
       return list_lab
       for category, keywords not in lemmatize_keywords(categories).items():
-        return "Other"
+      return "Other"
   
   with st.form('my_form'):
     st.subheader('Sentiment Analysis for Individual Reviews')
