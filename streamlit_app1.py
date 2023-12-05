@@ -164,6 +164,16 @@ with tab3:
       }
       return scores_dict
 
+  def predict_sentiment(text):
+  
+      # Get polarity scores
+      scores = polarity_scores(text)
+  
+      # Determine the sentiment with the highest score
+      sentiment = max(scores, key=scores.get)
+  
+      return f"This review has {sentiment} sentiment with a score of {scores[sentiment]*100:.2f}%"
+
 with tab4:
   st.header('Model performance')
 
