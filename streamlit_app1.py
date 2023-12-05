@@ -147,6 +147,10 @@ with tab3:
   st.header('Transformer Approach')
   st.write('This tab includes Transformer-Based Sentiment Analysis using RoBERTa and SoftMax.')
 
+  MODEL = "cardiffnlp/twitter-roberta-base-sentiment"
+  tokenizer = AutoTokenizer.from_pretrained(MODEL)
+  model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+
 with tab4:
   st.header('Model performance')
 
