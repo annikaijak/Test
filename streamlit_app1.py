@@ -180,10 +180,6 @@ with tab3:
     review_txt3 = st.text_input('Enter your review here')
       
     submit_button3 = st.form_submit_button('Submit')
-      
-    if submit_button3:
-      result2 = predict_sentiment(review_txt3)
-      st.write(result2)
 
 with tab4:
   st.header('Model performance')
