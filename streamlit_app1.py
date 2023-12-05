@@ -45,6 +45,7 @@ def load_data():
 df = load_data()
 
 pipe_svm = pickle.load(open('data/model.pkl', 'rb'))
+model_roberta = pickle.load(open('data/RoBERTa_result.pkl', 'rb'))
 
 
 categories = {
