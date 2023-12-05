@@ -45,7 +45,6 @@ def load_data():
 df = load_data()
 
 pipe_svm = pickle.load(open('data/model.pkl', 'rb'))
-model_roberta = pickle.load(open('data/RoBERTa_result.pkl', 'rb'))
 
 # Defining functions
 def text_prepro(texts: pd.Series) -> list:
@@ -106,33 +105,6 @@ def categorize_review(text_review):
     if len(list_lab) == 0:
       return "Other"
 
-MODEL = "cardiffnlp/twitter-roberta-base-sentiment"
-tokenizer = AutoTokenizer.from_pretrained(MODEL)
-model = AutoModelForSequenceClassification.from_pretrained(MODEL)
-
-# Function for Roberta Model Polarity Score
-def polarity_scores(text):
-    encoded_text = tokenizer(text, return_tensors='pt')
-    result = model(**encoded_text)
-    scores = result[0][0].detach().numpy()
-    scores = softmax(scores)
-    scores_dict = {
-        'negative' : scores[0],
-        'neutral' : scores[1],
-        'positive' : scores[2]
-    }
-    return scores_dict
-
-def predict_sentiment(text):
-
-    # Get polarity scores
-    scores = polarity_scores(text)
-
-    # Determine the sentiment with the highest score
-    sentiment = max(scores, key=scores.get)
-
-    return f"This review has {sentiment} sentiment with a score of {scores[sentiment]*100:.2f}%"
-
 # The App    
 st.title('TrustTracker 👌')
 st.markdown('Welcome to TrustTracker! The application where you easily can check the quality, price, service and delivery of your favorite companies.')
@@ -172,18 +144,6 @@ with tab2:
 with tab3:
   st.header('Transformer Approach')
   st.write('This tab includes Transformer-Based Sentiment Analysis using RoBERTa and SoftMax.')
-
-  with st.form('my_form3'):
-    st.subheader('Sentiment Analysis for Individual Reviews')
-
-    review_txt3 = st.text_input('Enter your review here')
-      
-    submit_button3 = st.form_submit_button('Submit')
-      
-    if submit_button3:
-      result2 = predict_sentiment(review_txt3)
-      st.write(result2)
-
 
 with tab4:
   st.header('Model performance')
