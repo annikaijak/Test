@@ -147,32 +147,6 @@ with tab3:
   st.header('Transformer Approach')
   st.write('This tab includes Transformer-Based Sentiment Analysis using RoBERTa and SoftMax.')
 
-  MODEL = "cardiffnlp/twitter-roberta-base-sentiment"
-  tokenizer = AutoTokenizer.from_pretrained(MODEL)
-  model = AutoModelForSequenceClassification.from_pretrained(MODEL)
-
-  # Function for Roberta Model Polarity Score
-  def polarity_scores(text):
-      encoded_text = tokenizer(text, return_tensors='pt')
-      result = model(**encoded_text)
-      scores = result[0][0].detach().numpy()
-      scores = softmax(scores)
-      scores_dict = {
-          'negative' : scores[0],
-          'neutral' : scores[1],
-          'positive' : scores[2]
-      }
-      return scores_dict
-
-  def predict_sentiment(text):
-  
-      # Get polarity scores
-      scores = polarity_scores(text)
-  
-      # Determine the sentiment with the highest score
-      sentiment = max(scores, key=scores.get)
-  
-      return f"This review has {sentiment} sentiment with a score of {scores[sentiment]*100:.2f}%"
 
 with tab4:
   st.header('Model performance')
