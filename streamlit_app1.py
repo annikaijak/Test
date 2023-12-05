@@ -120,7 +120,7 @@ with tab2:
           if any(keyword in lemmatized_review for keyword in keywords):
             list_lab.append(category)
       return list_lab
-      if len(list_lab) == 0:
+      else:
         return "Other"
   
   with st.form('my_form'):
