@@ -174,13 +174,6 @@ with tab3:
   
       return f"This review has {sentiment} sentiment with a score of {scores[sentiment]*100:.2f}%"
 
-  with st.form('my_form3'):
-    st.subheader('Sentiment Analysis for Individual Reviews')
-
-    review_txt3 = st.text_input('Enter your review here')
-      
-    submit_button3 = st.form_submit_button('Submit')
-
 with tab4:
   st.header('Model performance')
 
