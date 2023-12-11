@@ -40,17 +40,11 @@ def load_data():
 # Load the data using the defined function
 df = load_data()
 
-st.cache(hash_funcs={"MyUnhashableClass": lambda _: None}
-def load_svm():
+st.cache
+def load_model():
   return pickle.load('data/model.pkl', 'rb'))
 
-svm = load_svm()
-
-st.cache(hash_funcs={"MyUnhashableClass": lambda _: None}
-def load_roberta():
-  return pickle.load(open('data/RoBERTa_result.pkl', 'rb'))
-
-roberta = load_roberta()
+svm = load_model()
 
 # Defining functions
 def text_prepro(texts: pd.Series) -> list:
