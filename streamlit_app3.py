@@ -204,18 +204,7 @@ with tab6:
 
   # Reviews by number of companies
   st.subheader("Reviews by Number of Companies")
-  # Counting how many reviews each company has
-  reviews_count = df['name'].value_counts()
-
-  # Setting up the plot
-  plt.figure(figsize=(10, 6))
-  ax = reviews_count.value_counts().sort_index() \
-  .plot(kind='bar',
-        title='Count of Reviews by Number of Companies ',
-        figsize=(10, 5))
-  ax.set_xlabel('Number of Reviews')
-  ax.set_ylabel('Number of Companies')
-  st.pyplot(plt)  
+  st.image('images/reviewsbycompanies.png')
 
   # Reviews by rating
   st.subheader("Reviews by Rating")
