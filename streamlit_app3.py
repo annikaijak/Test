@@ -195,47 +195,18 @@ with tab6:
   st.subheader("Reviews by Number of Companies")
   st.image('images/reviewsbycompanies.png')
 
-  # Reviews by rating
-  st.subheader("Reviews by Rating")
-    
-  plt.figure(figsize=(10, 6))
-  ax = df['rating'].value_counts().sort_index() \
-  .plot(kind='bar',
-        title='Count of Reviews by Stars',
-        figsize=(10, 5))
-  ax.set_xlabel('Review Stars')
-  st.pyplot(plt)
-
   # Reviews by year
   st.subheader("Reviews by Year")
-    
-  # Converting the reviewed_at column to datetime
-  df['reviewed_at'] = pd.to_datetime(df['reviewed_at'])
-    
-  # We convert the reviewed_at column to a string format with only the year
-  # count how many reviews were made each year, sort the index and reset the index
-  reviews_per_day = df['reviewed_at'].dt.strftime('%Y').value_counts().sort_index().reset_index(name='counts')
-    
-  # Then we plot the figure
-  plt.figure(figsize=(20,5))
-  plt.bar(reviews_per_day['reviewed_at'], reviews_per_day['counts'])
-  plt.title('Review count by year')
-  plt.ylabel('Number of reviews')
-  plt.xlabel('Year')
-  st.pyplot(plt)
+  st.image('images/reviewsbyyear.png')
+
+  # Reviews by month in 2022
+  st.subheader("Reviews by Month in 2022")
+  st.image('images/reviewsbymonth.png')
+  
+  # Reviews by rating
+  st.subheader("Reviews by Rating")
+  st.image('images/reviewsbyrating.png')
 
   # Reviews by user
-  st.subheader("Reviews by User")
-    
-  # Counting how many reviews the authors have made, but only for the authers that
-  # have made more than 3 reviews.
-  reviews_per_author = df['author_name'].value_counts().loc[lambda x : x > 3].reset_index(name='counts')
-    
-  plt.figure(figsize=(15,6))
-  plt.bar(reviews_per_author['author_name'], reviews_per_author['counts'])
-  plt.title('Review count by author')
-  plt.xticks(rotation=70)
-  plt.yticks([])
-  plt.ylabel('Number of Reviews')
-  plt.xlabel('Review Author')
-  st.pyplot(plt)
+  st.subheader("Reviews by Consumer Name")
+  st.image('images/reviewsbyauthor.png')
