@@ -38,9 +38,9 @@ df = load_data()
 
 st.cache
 def load_model():
-  return pickle.load('data/model.pkl', 'rb')
+  return pickle.load(open('data/model.pkl', 'rb'))
 
-svm = load_model()
+pipe_svm = load_model()
 
 # Defining functions
 def text_prepro(texts: pd.Series) -> list:
@@ -172,11 +172,6 @@ with tab3:
 
 with tab4:
   st.header('Model performance')
-  st.write('''
-    In our work, we retrieved a human PARP-1 biological dataset from the ChEMBL database. The data was curated and resulted in a non-redundant set of 2,018 PARP-1 inhibitors, which can be divided into:
-    - 1,720 active compounds
-    - 298 inactive compounds
-    ''')
 
 with tab5:
   st.header('Dataset')
