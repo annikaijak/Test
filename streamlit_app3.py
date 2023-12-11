@@ -15,9 +15,6 @@ import matplotlib.pyplot as plt
 import spacy
 nlp = spacy.load('en_core_web_sm')
 
-from sklearn.model_selection import cross_val_score
-from sklearn.metrics import classification_report, confusion_matrix
-
 from transformers import AutoTokenizer
 from transformers import AutoModelForSequenceClassification
 from scipy.special import softmax
@@ -43,8 +40,17 @@ def load_data():
 # Load the data using the defined function
 df = load_data()
 
-pipe_svm = pickle.load(open('data/model.pkl', 'rb'))
-model_roberta = pickle.load(open('data/RoBERTa_result.pkl', 'rb'))
+st.cache(hash_funcs={"MyUnhashableClass": lambda _: None}
+def load_svm():
+  return pickle.load('data/model.pkl', 'rb'))
+
+svm = load_svm()
+
+st.cache(hash_funcs={"MyUnhashableClass": lambda _: None}
+def load_roberta():
+  return pickle.load(open('data/RoBERTa_result.pkl', 'rb'))
+
+roberta = load_roberta()
 
 # Defining functions
 def text_prepro(texts: pd.Series) -> list:
