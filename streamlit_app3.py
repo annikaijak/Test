@@ -36,7 +36,7 @@ def load_data():
 # Load the data using the defined function
 df = load_data()
 
-st.cache
+@st.cache(hash_funcs={"MyUnhashableClass": lambda _: None})
 def load_model():
   return pickle.load(open('data/model.pkl', 'rb'))
 
