@@ -7,10 +7,6 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
-# Visualisations:
-import seaborn as sns
-import matplotlib.pyplot as plt
-
 # NLP
 import spacy
 nlp = spacy.load('en_core_web_sm')
@@ -42,7 +38,7 @@ df = load_data()
 
 st.cache
 def load_model():
-  return pickle.load('data/model.pkl', 'rb'))
+  return pickle.load('data/model.pkl', 'rb')
 
 svm = load_model()
 
