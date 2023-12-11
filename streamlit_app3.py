@@ -1,5 +1,4 @@
 import pickle
-from PIL import Image
 
 # For building application
 import streamlit as st
@@ -30,7 +29,7 @@ st.set_page_config(
   initial_sidebar_state='expanded')
   
 # Function to load the dataset
-@st.experimental_memo
+@st.cache_data
 def load_data():
     # Define the file path
     file_path = 'https://raw.githubusercontent.com/MikkelONielsen/TrustTracker/main/trust_pilot_reviews_data_2022_06.csv'
@@ -172,17 +171,7 @@ with tab2:
 with tab3:
   st.header('Transformer Approach')
   st.write('This tab includes Transformer-Based Sentiment Analysis using RoBERTa and SoftMax.')
-
-  with st.form('my_form3'):
-    st.subheader('Sentiment Analysis for Individual Reviews')
-
-    review_txt3 = st.text_input('Enter your review here')
       
-    submit_button3 = st.form_submit_button('Submit')
-      
-    if submit_button3:
-      result2 = predict_sentiment(review_txt3)
-      st.write(result2)
 
 
 with tab4:
