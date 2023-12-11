@@ -22,7 +22,7 @@ st.set_page_config(
   initial_sidebar_state='expanded')
   
 # Function to load the dataset
-@st.cache_data
+@st.experimental_memo
 def load_data():
     # Define the file path
     file_path = 'https://raw.githubusercontent.com/MikkelONielsen/TrustTracker/main/trust_pilot_reviews_data_2022_06.csv'
